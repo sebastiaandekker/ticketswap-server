@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const bcrypt = require("bcrypt");
 const User = require("./model");
+const Event = require("../event/model");
 
 // Create route to get user information
 // 1. define get route /user/:userId
@@ -30,7 +31,7 @@ router.post("/user", (req, res, next) => {
 
 // Get users information
 router.get("/user/:userId", (req, res, next) => {
-  User.findByPk(req.params.userId)
+  User.findByPk(req.params.userId, { include: [Event] })
     .then(user => {
       if (!user) {
         res.status(404).end();
