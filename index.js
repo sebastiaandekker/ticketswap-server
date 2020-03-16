@@ -6,6 +6,8 @@ const Event = require("./event/model");
 const eventRouter = require("./event/router");
 const Ticket = require("./ticket/model");
 const ticketRouter = require("./ticket/router");
+const Comment = require("./comment/model");
+const commentRouter = require("./comment/router");
 const cors = require("cors");
 
 const app = new express();
@@ -17,6 +19,7 @@ app.use(jsonParser);
 app.use(userRouter);
 app.use(eventRouter);
 app.use(ticketRouter);
+app.use(commentRouter);
 
 const port = process.env.PORT || 4000;
 
