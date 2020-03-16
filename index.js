@@ -6,6 +6,8 @@ const Event = require("./event/model");
 const eventRouter = require("./event/router");
 const Ticket = require("./ticket/model");
 const ticketRouter = require("./ticket/router");
+const Comment = require("./comment/model");
+// const ticketRouter = require("./ticket/router");
 const cors = require("cors");
 
 const app = new express();
