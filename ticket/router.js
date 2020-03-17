@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const Ticket = require("./model");
 const Comment = require("../comment/model");
+const auth = require("../auth/middleware");
 
 const router = new Router();
 
@@ -12,9 +13,9 @@ router.get("/ticket", (req, res, next) => {
 });
 
 // Create ticket
-router.post("/ticket", (req, res, next) => {
-  // const data = { ...req.body, eventId: req.event.id };
-  Ticket.create(req.body)
+router.post("/ticket", auth, (req, res, next) => {
+  const ticket = { ...req.body, userId: req.user.id };
+  Ticket.create(ticket)
     .then(ticket => res.status(201).send(ticket))
     .catch(next);
 });
