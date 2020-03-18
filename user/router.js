@@ -3,6 +3,8 @@ const bcrypt = require("bcrypt");
 const User = require("./model");
 const Event = require("../event/model");
 const Ticket = require("../ticket/model");
+const auth = require("../auth/middleware");
+const { toJWT } = require("../auth/jwt");
 
 // Create route to get user information
 // 1. define get route /user/:userId
@@ -26,7 +28,11 @@ router.post("/user", (req, res, next) => {
     password: bcrypt.hashSync(req.body.password, 10)
   };
   User.create(user)
-    .then(user => res.status(201).send(user))
+    .then(user => {
+      res.status(201).send({
+        jwt: toJWT({ userId: user.dataValues.id })
+      });
+    })
     .catch(next);
 });
 
