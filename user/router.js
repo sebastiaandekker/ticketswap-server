@@ -30,6 +30,7 @@ router.post("/user", (req, res, next) => {
   User.create(user)
     .then(user => {
       res.status(201).send({
+        name: user.name,
         jwt: toJWT({ userId: user.dataValues.id })
       });
     })
