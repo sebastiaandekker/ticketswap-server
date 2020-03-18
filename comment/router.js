@@ -11,7 +11,7 @@ router.get("/comment", (req, res, next) => {
 });
 
 router.post("/comment", auth, (req, res, next) => {
-  const comment = { ...req.body, userId: req.user.id };
+  const comment = { ...req.body, userId: req.user.id, author: req.user.name };
   Comment.create(comment)
     .then(comment => res.status(201).send(comment))
     .catch(next);

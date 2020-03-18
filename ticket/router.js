@@ -14,7 +14,7 @@ router.get("/ticket", (req, res, next) => {
 
 // Create ticket
 router.post("/ticket", auth, (req, res, next) => {
-  const ticket = { ...req.body, userId: req.user.id };
+  const ticket = { ...req.body, userId: req.user.id, author: req.user.name };
   Ticket.create(ticket)
     .then(ticket => res.status(201).send(ticket))
     .catch(next);

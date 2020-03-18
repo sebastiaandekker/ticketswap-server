@@ -17,6 +17,9 @@ const Ticket = db.define(
     picture: {
       type: Sequlize.STRING,
       allowNull: false
+    },
+    author: {
+      type: Sequlize.STRING
     }
   },
   {
