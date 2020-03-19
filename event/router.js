@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const Event = require("./model");
 const Ticket = require("../ticket/model");
+const Comment = require("../comment/model");
 const auth = require("../auth/middleware");
 
 const router = new Router();
@@ -22,7 +23,9 @@ router.post("/event", auth, (req, res, next) => {
 
 // Get event by id
 router.get("/event/:eventId", (req, res, next) => {
-  Event.findByPk(req.params.eventId, { include: [Ticket] })
+  Event.findByPk(req.params.eventId, {
+    include: [{ model: Ticket, include: [Comment] }]
+  })
     .then(event => {
       if (!event) {
         res.status(404).end();
