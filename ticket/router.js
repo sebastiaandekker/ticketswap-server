@@ -14,7 +14,7 @@ router.get("/ticket", (req, res, next) => {
 
 // Create ticket
 router.post("/ticket", auth, (req, res, next) => {
-  const ticket = { ...req.body, userId: req.user.id };
+  const ticket = { ...req.body, userId: req.user.id, author: req.user.name };
   Ticket.create(ticket)
     .then(ticket => res.status(201).send(ticket))
     .catch(next);
@@ -33,19 +33,24 @@ router.get("/ticket/:ticketId", (req, res, next) => {
     .catch(next);
 });
 
-router.put("/ticket/:ticketId", (req, res, next) =>
-  Ticket.findByPk(req.params.ticketId)
+router.put("/ticket/:ticketId", auth, (req, res, next) => {
+  const ticketData = {
+    ...req.body,
+    userId: req.user.id,
+    author: req.user.name
+  };
+  Ticket.findByPk(req.params.ticketId, { include: [Comment] })
     .then(ticket => {
       if (!ticket) {
         res.status(404).end();
       } else {
-        return ticket.update(req.body);
+        return ticket.update(ticketData);
       }
     })
     .then(ticket => {
       res.send(ticket);
     })
-    .catch(next)
-);
+    .catch(next);
+});
 
 module.exports = router;
